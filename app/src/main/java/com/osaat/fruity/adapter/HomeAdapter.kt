@@ -1,8 +1,8 @@
 package com.osaat.fruity.adapter
 
-import android.support.v7.recyclerview.extensions.AsyncListDiffer
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,7 @@ import com.osaat.fruity.viewmodels.FruitItemViewModel
 import kotlinx.android.synthetic.main.item_home_list.view.*
 
 class HomeAdapter(private val listener: OnItemClickListener<FruitItemViewModel>) :
-    RecyclerView.Adapter<HomeAdapter.FruitItemViewHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<HomeAdapter.FruitItemViewHolder>() {
 
     private val differ: AsyncListDiffer<FruitItemViewModel> =
         AsyncListDiffer(this, object : DiffUtil.ItemCallback<FruitItemViewModel>(){
@@ -40,7 +40,7 @@ class HomeAdapter(private val listener: OnItemClickListener<FruitItemViewModel>)
 
 
     class FruitItemViewHolder(itemView: View, private val listener: OnItemClickListener<FruitItemViewModel>) :
-            RecyclerView.ViewHolder(itemView) {
+            androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(item: FruitItemViewModel) = with(itemView) {
             home_item_title_view.text = item.fruitType
             setOnClickListener{ listener.onItemClick(it, item) }

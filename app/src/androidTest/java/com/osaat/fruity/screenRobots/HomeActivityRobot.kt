@@ -2,6 +2,7 @@ package com.osaat.fruity.screenRobots
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -10,10 +11,12 @@ import androidx.test.rule.ActivityTestRule
 import com.osaat.fruity.Constants
 import com.osaat.fruity.R
 import com.osaat.fruity.activities.HomeActivity
-import com.osaat.fruity.utils.RecyclerViewItemCountAssertion
-import com.osaat.fruity.utils.RecyclerViewMatcher
-import com.osaat.fruity.utils.ToastMatcher
-import com.osaat.fruity.utils.createResponse
+import com.osaat.fruity.utils.*
+import com.osaat.fruity.utils.TestConstants.ACTION_BAR_NAME
+import com.osaat.fruity.utils.TestConstants.APPLE_TITLE
+import com.osaat.fruity.utils.TestConstants.HOME_SCREEN_TITLE
+import com.osaat.fruity.utils.TestConstants.KIWI_TITLE
+import com.osaat.fruity.utils.TestConstants.TOAST_ERROR_MESSAGE
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Matchers.allOf
@@ -49,6 +52,12 @@ class HomeActivityRobot {
         mockWebServer.shutdown()
     }
 
+    fun tapFirstItem() {
+        onView(withRecyclerView(R.id.recycler_view)
+            ?.atPositionOnView(0, R.id.home_item_title_view))
+            .perform(click())
+    }
+
     fun launchAppWithSuccessResponse() {
         mockWebServer.enqueue(mockResponseSuccess)
         homeActivityRule.launchActivity(null)
@@ -59,8 +68,8 @@ class HomeActivityRobot {
         homeActivityRule.launchActivity(null)
     }
 
-    fun checkErrorToastMessageIDisplayed() {
-        onView(withText("HTTP 505 Server Error")).inRoot(ToastMatcher()).check(
+    fun checkErrorToastMessageIsDisplayed() {
+        onView(withText(TOAST_ERROR_MESSAGE)).inRoot(ToastMatcher()).check(
             matches(isDisplayed())
         )
     }
@@ -68,7 +77,7 @@ class HomeActivityRobot {
     fun checkFirstFruitItem() {
         onView(withRecyclerView(R.id.recycler_view)
             ?.atPositionOnView(0, R.id.home_item_title_view))
-            .check(matches(allOf(withText("MOCKED APPLE"), isCompletelyDisplayed())))
+            .check(matches(allOf(withText(APPLE_TITLE), isCompletelyDisplayed())))
     }
 
     fun checkLastFruitItem() {
@@ -76,13 +85,18 @@ class HomeActivityRobot {
             .perform(scrollToPosition<RecyclerView.ViewHolder>(8))
 
         onView(withRecyclerView(R.id.recycler_view)
-            ?.atPositionOnView(6, R.id.home_item_title_view))
-            .check(matches(allOf(withText("MOCKED KIWI"), isCompletelyDisplayed())))
+            ?.atPositionOnView(8, R.id.home_item_title_view))
+            .check(matches(allOf(withText(KIWI_TITLE), isCompletelyDisplayed())))
     }
 
     fun checkFruitListSize(expectedNumberOfItems: Int) {
         onView(withId(R.id.recycler_view))
             .check(RecyclerViewItemCountAssertion(expectedNumberOfItems))
+    }
+
+    fun checkToolbarTitle() {
+        onView(allOf(isDescendantOfA(withResourceName(ACTION_BAR_NAME)), withText(HOME_SCREEN_TITLE)))
+            .check(matches(isCompletelyDisplayed()))
     }
 
     private fun withRecyclerView(recyclerViewId: Int): RecyclerViewMatcher? {

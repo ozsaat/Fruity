@@ -45,7 +45,9 @@ class HomeActivityTests {
     @Test
     fun whenAppIsOpenedWithSuccessResponse_thenListOfFruitIsDisplayed() = with(homeActivityRobot) {
         launchAppWithSuccessResponse()
+        //We can make the test more informative by passing in the expected result (in this case the recyclerview having 9 items)
         checkFruitListSize(9)
+        //Or we can hide the expected result in the robot class, so the reader only sees we are checking the first and last items
         checkFirstFruitItem()
         checkLastFruitItem()
     }

@@ -1,6 +1,7 @@
 package com.osaat.fruity.api.retrofit
 
 import com.google.gson.GsonBuilder
+import com.osaat.fruity.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -12,7 +13,7 @@ object MyRetrofitClient {
 
     init {
         val builder = Retrofit.Builder()
-            .baseUrl("https://raw.githubusercontent.com/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(OkHttpClient.Builder().build())

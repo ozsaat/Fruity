@@ -1,0 +1,49 @@
+{
+  "fruit": [
+    {
+      "type": "mocked apple",
+      "price": 149,
+      "weight": 120
+    },
+    {
+      "type": "mocked banana",
+      "price": 129,
+      "weight": 80
+    },
+    {
+      "type": "mocked blueberry",
+      "price": 19,
+      "weight": 18
+    },
+    {
+      "type": "mocked orange",
+      "price": 199,
+      "weight": 150
+    },
+    {
+      "type": "mocked pear",
+      "price": 99,
+      "weight": 100
+    },
+    {
+      "type": "mocked strawberry",
+      "price": 99,
+      "weight": 20
+    },
+    {
+      "type": "mocked kumquat",
+      "price": 49,
+      "weight": 80
+    },
+    {
+      "type": "mocked pitaya",
+      "price": 599,
+      "weight": 100
+    },
+    {
+      "type": "mocked kiwi",
+      "price": 89,
+      "weight": 200
+    }
+  ]
+}

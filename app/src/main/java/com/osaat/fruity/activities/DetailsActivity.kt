@@ -1,6 +1,6 @@
 package com.osaat.fruity.activities
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.osaat.fruity.R
 import com.osaat.fruity.utils.ValueConverter

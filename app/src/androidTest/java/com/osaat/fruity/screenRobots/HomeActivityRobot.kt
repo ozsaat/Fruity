@@ -22,6 +22,11 @@ import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 
+/*
+Using Robot design pattern to make the tests easier to read and maintain.
+Also has the benefit of making it easy to extend by providing reusable functions
+*/
+
 class HomeActivityRobot {
 
     private val mockWebServer = MockWebServer()
@@ -30,21 +35,19 @@ class HomeActivityRobot {
     @get:Rule
     var homeActivityRule = ActivityTestRule(HomeActivity::class.java, false, false)
 
-    //Successful response with data
     private lateinit var mockResponseSuccess: MockResponse
-
-    //Response returns empty json
     private lateinit var mockResponseEmpty: MockResponse
-
-    //Error response
     private lateinit var mockResponseError: MockResponse
 
     fun setup() {
         mockWebServer.start(8080)
         Constants.BASE_URL = mockWebServer.url("/").toString()
 
+        //Successful response with data
         mockResponseSuccess = context.createResponse(localResponsePath = "response_success.json", responseCode = 200)
+        //Response returns empty json
         mockResponseEmpty = context.createResponse(localResponsePath = "response_success_empty.json", responseCode = 200)
+        //Error response
         mockResponseError = context.createResponse(responseCode = 505)
     }
 
@@ -54,7 +57,7 @@ class HomeActivityRobot {
 
     fun tapFirstItem() {
         onView(withRecyclerView(R.id.recycler_view)
-            ?.atPositionOnView(0, R.id.home_item_title_view))
+            !!.atPositionOnView(0, R.id.home_item_title_view))
             .perform(click())
     }
 
@@ -74,19 +77,21 @@ class HomeActivityRobot {
         )
     }
 
-    fun checkFirstFruitItem() {
+    private fun checkRecyclerViewItem(position: Int, itemName: String) {
         onView(withRecyclerView(R.id.recycler_view)
-            ?.atPositionOnView(0, R.id.home_item_title_view))
-            .check(matches(allOf(withText(APPLE_TITLE), isCompletelyDisplayed())))
+        !!.atPositionOnView(position, R.id.home_item_title_view))
+            .check(matches(allOf(withText(itemName), isCompletelyDisplayed())))
+    }
+
+    fun checkFirstFruitItem() {
+        checkRecyclerViewItem(0, APPLE_TITLE)
     }
 
     fun checkLastFruitItem() {
         onView(withId(R.id.recycler_view))
             .perform(scrollToPosition<RecyclerView.ViewHolder>(8))
 
-        onView(withRecyclerView(R.id.recycler_view)
-            ?.atPositionOnView(8, R.id.home_item_title_view))
-            .check(matches(allOf(withText(KIWI_TITLE), isCompletelyDisplayed())))
+        checkRecyclerViewItem(8, KIWI_TITLE)
     }
 
     fun checkFruitListSize(expectedNumberOfItems: Int) {

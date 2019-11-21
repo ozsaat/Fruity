@@ -7,6 +7,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/*
+Instead of writing a lot of tests, my aim was to create a stable and easily extendable base.
+The benefit being human readable tests and reusable components that will make adding more tests easier
+*/
 
 @RunWith(AndroidJUnit4::class)
 class HomeActivityTests {
@@ -30,12 +34,14 @@ class HomeActivityTests {
         checkToolbarTitle()
     }
 
+    //Mocking error response lets us test how we handle error response
     @Test
     fun whenAppIsOpenedWithErrorResponse_thenCorrectToastMessageIsDisplayed() = with(homeActivityRobot) {
         launchAppWithErrorResponse()
         checkErrorToastMessageIsDisplayed()
     }
 
+    // Checking list size and validating specific recyclerview items
     @Test
     fun whenAppIsOpenedWithSuccessResponse_thenListOfFruitIsDisplayed() = with(homeActivityRobot) {
         launchAppWithSuccessResponse()
